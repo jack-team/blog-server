@@ -1,9 +1,14 @@
 /*api*/
 import api from './api';
-import './user';
 
+/*base router*/
+import base from './base';
 
+/*error router*/
+import error from './error';
 
 export {
-    api
-}
+    api,
+    base,
+    error
+};
