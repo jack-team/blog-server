@@ -1,8 +1,8 @@
 {
   "port":27017,
   "dbName":"blog",
-  "authSource":"admin",
-  "userName":"admin",
+  "userName":"root",
+  "authSource":"blog",
   "dbIp":"47.93.199.212",
   "password":"huaxin19jt"
 }

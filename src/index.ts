@@ -1,12 +1,13 @@
 import Koa from 'koa';
 import koaEjs from 'koa-ejs';
 import koaBody from 'koa-body';
-import * as router from './router';
 import path from './../utils/path';
 import error from './middleware/error';
 import staticCache from 'koa-static-cache';
 
-import './models';
+require('./models');
+
+import * as router from './router';
 
 const app = new Koa();
 
@@ -27,7 +28,7 @@ app.use(staticCache(
 /*配置模板引擎*/
 koaEjs(app, {
     cache: true,
-    debug: false,
+    debug: true,
     layout: false,
     viewExt: `html`,
     root: path(`/src/views`)

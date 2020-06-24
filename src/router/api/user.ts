@@ -1,10 +1,12 @@
-import {
-    Context
-} from 'koa';
+import Router from 'koa-router';
 
-/*api user 模块*/
-import api from './index';
+import * as Controllers from './../../controllers';
 
-api.get(`/hello`, (ctx: Context) => {
-    ctx.body = `hello`;
-});
+export default (router: Router) => {
+    /*用户注册*/
+    router.post(
+        `/user/register`,
+        Controllers.user.register
+    );
+};
+

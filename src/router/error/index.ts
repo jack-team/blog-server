@@ -2,6 +2,8 @@ import Router, {
     IRouterOptions
 } from 'koa-router';
 
+import notFound from './404';
+
 const routerConfig = {
     prefix: `/error`
 } as IRouterOptions;
@@ -12,6 +14,6 @@ const router = (
     )
 );
 
-export default router;
+notFound(router);
 
-import './404';
+export default router;

@@ -2,8 +2,11 @@ import {
     Context
 } from 'koa';
 
-import base from './index';
+import Router from 'koa-router';
 
-base.get(`/404` , async (ctx: Context) => {
-    await ctx.render(`404`);
-});
+export default (router: Router) => {
+    router.get(`/404` , async (ctx: Context) => {
+        await ctx.render(`404`);
+    });
+};
+

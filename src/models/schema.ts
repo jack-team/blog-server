@@ -1,4 +1,5 @@
 import {
+    Types,
     Schema,
     SchemaTypeOpts
 } from 'mongoose';
@@ -12,8 +13,12 @@ interface At {
     default: any;
 }
 
+export const ObjectId = () => (
+    Types.ObjectId()
+);
+
 /*创建集合*/
-export const createSchema = (fields: Fields) => {
+export const CreateSchema = (fields: Fields) => {
     const _atType: At = {
         type: Date,
         default: Date.now()
