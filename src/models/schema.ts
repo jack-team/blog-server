@@ -1,5 +1,4 @@
 import {
-    Types,
     Schema,
     SchemaTypeOpts
 } from 'mongoose';
@@ -12,10 +11,6 @@ interface At {
     type: any;
     default: any;
 }
-
-export const ObjectId = () => (
-    Types.ObjectId()
-);
 
 /*创建集合*/
 export const CreateSchema = (fields: Fields) => {

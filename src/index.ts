@@ -3,6 +3,7 @@ import koaEjs from 'koa-ejs';
 import koaBody from 'koa-body';
 import path from './../utils/path';
 import error from './middleware/error';
+import token from './middleware/token';
 import staticCache from 'koa-static-cache';
 
 require('./models');
@@ -36,6 +37,9 @@ koaEjs(app, {
 
 /*配置错误重定向*/
 app.use(error);
+
+/*配置获取token*/
+app.use(token);
 
 /*配置api路由*/
 app.use(router.api.routes());

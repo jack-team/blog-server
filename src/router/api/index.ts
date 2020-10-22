@@ -10,6 +10,7 @@ import koaJwt from 'koa-jwt';
 
 /*导入路由模块*/
 import userRouter from './user';
+import articleRouter from './article';
 
 const routerConfig = {
     prefix: `/api`
@@ -32,5 +33,6 @@ router.use(
 
 /*初始化路由*/
 userRouter(router);
+articleRouter(router);
 
 export default router;

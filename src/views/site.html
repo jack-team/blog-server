@@ -6,17 +6,52 @@
     <script src="/static/jquery.min.js"></script>
 </head>
 <body>
-pc ll
+
+<div>
+    <input type="text" id="title"/>
+    <input type="text" id="description"/>
+    <button id="submit">提交</button>
+</div>
 
 <script>
-    $.ajax({
-        method:`post`,
-        url:`/api/user/register`,
-        data:{
-            userName:`jacker1996`,
-            phone:`18981921604`,
-            password:`huaxin19jt`
-        }
+    var Authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkxMTQ5M2RkY2YxOTA3MjEyYmE2NTEiLCJpYXQiOjE2MDMzNDM1NDksImV4cCI6MTYwNTkzNTU0OX0.xZ4ydLqxM6jIzAbVGTBdRb_6ZzdtmfJU7SzY-CYuq2E';
+
+    $(function () {
+        var $form = $('#submit');
+
+        $.ajax({
+            method:`post`,
+            url: `/api/article/post`,
+            data: {
+                title: `javascript`,
+                content: `javascript`,
+                description: '<div>哈哈哈哈哈哈😁</div>',
+                cateId: `5f9115700089f9075797cf61`
+            },
+            headers: {
+                Authorization: Authorization
+            }
+        })
+
+        $form.on('click', function (e) {
+            var title = $('#title').val();
+            var description = $('#description').val();
+
+
+            e.preventDefault();
+
+            $.ajax({
+                method: `post`,
+                url: `/api/article/cate`,
+                data: {
+                    title: title,
+                    description: description
+                },
+                headers: {
+                    Authorization: Authorization
+                }
+            })
+        })
     })
 </script>
 </body>

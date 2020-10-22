@@ -8,5 +8,11 @@ export default (router: Router) => {
         `/user/register`,
         Controllers.user.register
     );
+
+    /*登录*/
+    router.post(
+        `/user/login`,
+        Controllers.user.login
+    );
 };
 

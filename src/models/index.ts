@@ -18,6 +18,6 @@ mongoose.connect(config.db, {
         connectError(err);
 });
 
-
 /*载入模块*/
 require('./user');
+require('./article');

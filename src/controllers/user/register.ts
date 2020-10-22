@@ -2,22 +2,19 @@ import {
     Context
 } from 'koa';
 
-import {
-    model
-} from 'mongoose';
+import xss from 'xss';
 
 import md5 from 'md5';
 
 import validator from 'validator';
 
 import {
-    Statics,
     CreateUser
 } from './../../models/user/statics';
 
-import errorCode from './../../common/code';
+import User from './../../models/user';
 
-const User = model(`User`) as Statics;
+import errorCode from './../../common/code';
 
 /*
 * 用户注册
@@ -81,28 +78,33 @@ export default async (ctx: Context) => {
         );
     }
 
-    /*查询用户是否已存在*/
-    const user = await User.
-    getUserByUserName(userName);
+    try {
+        /*查询用户是否已存在*/
+        const user = await User.
+        getUserInfo({ userName });
 
-    if (!!user) {
-        return ctx.body = (
-            errorCode(10007)
-        );
+        if (!!user) {
+            return ctx.body = (
+                errorCode(10007)
+            );
+        }
+
+        const params: CreateUser = {
+            phone: xss(phone),
+            userName: xss(userName),
+            password: md5(password)
+        };
+
+        /*创建用户*/
+        const data = await
+            User.createUser(params);
+
+        ctx.body = {
+            code: 200,
+            data: data
+        };
     }
-
-    const para: any = {
-        phone: phone,
-        userName: userName,
-        password: md5(password)
-    };
-
-    /*创建用户*/
-    const data = await
-        User.createUser(para);
-
-    ctx.body = {
-        code: 200,
-        data: data
-    };
-}
+    catch (e) {
+        ctx.body = errorCode(5000);
+    }
+};

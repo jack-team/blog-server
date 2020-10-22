@@ -1,21 +1,21 @@
 import {
+    model,
+    Schema
+} from 'mongoose';
+
+import {
     CreateSchema
 } from '../schema';
 
-import mongoose from 'mongoose';
-
-import statics from './statics';
+import statics, {
+    Statics
+} from './statics';
 
 const {
     ObjectId
-} = mongoose.Schema.Types;
+} = Schema.Types;
 
-const model = CreateSchema({
-    userId: {
-        unique: true,
-        type: ObjectId,
-        display: `用户Id`
-    },
+const userModel = CreateSchema({
     userName: {
         unique: true,
         minLength: 6,
@@ -27,6 +27,7 @@ const model = CreateSchema({
         type: String,
         minLength: 6,
         maxLength: 30,
+        select: false,
         display: `用户密码`
     },
     status: {
@@ -74,9 +75,9 @@ const model = CreateSchema({
     }
 });
 
-statics(model.statics);
+statics(userModel.statics);
 
-mongoose.model(`User`, model);
+export default model(`User`, userModel) as Statics;
 
 
 
