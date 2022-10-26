@@ -12,12 +12,13 @@ export default async (
     try {
         await next();
         notFound(ctx);
-    }
-    catch (e) {
+    } catch (e) {
         if (e.status === 401) {
             return auth(ctx);
         }
-        ctx.status = 500;
-        ctx.body = `server error.`;
+        ctx.body = {
+            code: 500,
+            message: `server error: ${e.message}`
+        };
     }
 }

@@ -33,7 +33,7 @@ const userModel = CreateSchema({
     status: {
         type: Number,
         default: 1,
-        display: `用户状态`
+        display: `分类状态 0为禁用 1为启用 -1为删除`
     },
     phone: {
         type: String,

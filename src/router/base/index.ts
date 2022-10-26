@@ -7,8 +7,14 @@ const router = new Router({
 
 /*渲染admin站点*/
 router.get(
-    [`/`, `/(.*)`],
+    [`/admin`, `/admin(.*)`],
     Controllers.site.renderSiteHtml
+);
+
+/*爬虫主页*/
+router.get(
+    [`/spider`, `/spider(.*)`],
+    Controllers.site.renderSpiderHtml
 );
 
 export default router;

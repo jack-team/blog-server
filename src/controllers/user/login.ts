@@ -79,7 +79,8 @@ export default async (ctx: Context) => {
         };
     }
     catch (e) {
-        console.log(e);
-        ctx.body = errorCode(5000);
+        ctx.body = (
+            errorCode(5000, e.message)
+        );
     }
 };

@@ -4,8 +4,6 @@ import {
 
 import xss from 'xss';
 
-import validator from 'validator';
-
 interface Params {
     cateId: string;
     title: string;
@@ -16,6 +14,8 @@ interface Params {
 import {
     articleModel
 } from './../../models/article';
+
+import validator from 'validator';
 
 import errorCode from './../../common/code';
 
@@ -48,11 +48,11 @@ export const post = async (ctx: Context) => {
         return ctx.body = errorCode(20007);
     }
 
-    try {
-        const {
-            userId = ``
-        } = ctx.userInfo;
+    const {
+        userId = ``
+    } = ctx.userInfo;
 
+    try {
         const para = {
             author: userId,
             title: xss(title),
@@ -67,13 +67,35 @@ export const post = async (ctx: Context) => {
             code: 200,
             message: `成功.`
         };
-    }
-    catch (e) {
-        ctx.body = errorCode(5000);
+    } catch (e) {
+        ctx.body = errorCode(5000, e.message);
     }
 };
 
 /*获取详情*/
-export const detail = (ctx: Context) => {
+export const detail = async (ctx: Context) => {
+    const {
+        id = ``
+    } = ctx.params;
 
+    if (validator.isEmpty(id)) {
+        return ctx.body = errorCode(20008);
+    }
+
+    try {
+        const article = await (
+            articleModel.getArticleById(id)
+        );
+
+        if (!article) {
+            return ctx.body = errorCode(20009);
+        }
+
+        ctx.body = {
+            code: 200,
+            data: article
+        };
+    } catch (e) {
+        ctx.body = errorCode(5000, e.message);
+    }
 };

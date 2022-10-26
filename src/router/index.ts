@@ -7,8 +7,12 @@ import base from './base';
 /*error router*/
 import error from './error';
 
+/**/
+import spider from './spider';
+
 export {
     api,
     base,
-    error
+    error,
+    spider
 };

@@ -3,9 +3,10 @@ import koaEjs from 'koa-ejs';
 import koaBody from 'koa-body';
 import path from './../utils/path';
 import error from './middleware/error';
-import token from './middleware/token';
 import staticCache from 'koa-static-cache';
+import tokenUser from './middleware/tokenUser';
 
+/*载入数据模型*/
 require('./models');
 
 import * as router from './router';
@@ -38,17 +39,19 @@ koaEjs(app, {
 /*配置错误重定向*/
 app.use(error);
 
-/*配置获取token*/
-app.use(token);
+/*配置获取用户*/
+app.use(tokenUser);
 
 /*配置api路由*/
 app.use(router.api.routes());
 app.use(router.base.routes());
 app.use(router.error.routes());
+app.use(router.spider.routes());
 
-app.listen(6868, () => (
-    console.log(`server start at 6868...`)
-));
+app.listen(6868, () => {
+    console.log(`server start at 6868...`);
+});
+
 
 
 

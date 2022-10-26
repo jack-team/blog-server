@@ -1,8 +1,18 @@
 {
-  "port":27017,
-  "dbName":"blog",
-  "userName":"root",
-  "authSource":"blog",
-  "dbIp":"47.93.199.212",
-  "password":"huaxin19jt"
+  "production": {
+    "port":27017,
+    "dbName":"blog",
+    "userName":"root",
+    "authSource":"blog",
+    "dbIp":"47.93.199.212",
+    "password":"huaxin19jt"
+  },
+  "development": {
+    "port":27017,
+    "dbName":"blog",
+    "userName":"root",
+    "authSource":"admin",
+    "dbIp":"localhost",
+    "password":"huaxin19jt"
+  }
 }

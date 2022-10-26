@@ -3,56 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="/static/jquery.min.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
 </head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 400px;
+        margin: auto;
+        padding: 60px 0;
+    }
+
+    .form-group {
+        height: 36px;
+        padding: 0 10px;
+        margin-bottom: 12px;
+        border: 1px solid #aaa;
+    }
+
+    .form-group input {
+        height: 100%;
+        width: 100%;
+        border: none;
+        outline: none;
+        background-color: transparent;
+    }
+
+    .form-content .form-group {
+        display: flex;
+    }
+
+    .form-content .filed {
+        width: 100px;
+        margin-left: -10px;
+        padding-left: 10px;
+        margin-right: 10px;
+        background-color: #ececec;
+    }
+
+    .hand {
+        margin-bottom: 12px;
+    }
+
+    .hand button {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        color: #fff;
+        height: 36px;
+        border: none;
+        outline: none;
+        border-radius: 4px;
+        display: inline-block;
+        background-color: #00CC00;
+    }
+
+    .hand button:active {
+        opacity: .8;
+    }
+
+    .hand button:hover {
+        cursor: pointer;
+    }
+</style>
 <body>
 
-<div>
-    <input type="text" id="title"/>
-    <input type="text" id="description"/>
-    <button id="submit">提交</button>
+<div class="container">
+    <div class="form-group">
+        <input type="text" placeholder="地址" id="url"/>
+    </div>
+    <div class="form-group">
+        <input type="text" placeholder="token" id="token" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkyYTFiN2YzMjYwYTE5NDhjNTU3NTEiLCJpYXQiOjE2MDM0NDUyMDUsImV4cCI6MTYwNjAzNzIwNX0.W4H1PTGoYx6A3Am6ifXQk5vS5wHoP4sOmZv8Hlben0k"/>
+    </div>
+    <div class="form-group">
+        <input type="text" placeholder="method" id="method"/>
+    </div>
+    <div class="form-content" id="content">
+
+    </div>
+    <div class="hand">
+        <button id="add-filed">
+            添加字段
+        </button>
+    </div>
+    <div class="hand">
+        <button id="submit">提交</button>
+    </div>
 </div>
 
 <script>
-    var Authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkxMTQ5M2RkY2YxOTA3MjEyYmE2NTEiLCJpYXQiOjE2MDMzNDM1NDksImV4cCI6MTYwNTkzNTU0OX0.xZ4ydLqxM6jIzAbVGTBdRb_6ZzdtmfJU7SzY-CYuq2E';
-
     $(function () {
-        var $form = $('#submit');
+        var html = ' <div class="form-group">\n' +
+            '            <div class="filed">\n' +
+            '                <input type="text" placeholder="字段名">\n' +
+            '            </div>\n' +
+            '            <input type="text" placeholder="数据" class="value"/>\n' +
+            '        </div>';
 
-        $.ajax({
-            method:`post`,
-            url: `/api/article/post`,
-            data: {
-                title: `javascript`,
-                content: `javascript`,
-                description: '<div>哈哈哈哈哈哈😁</div>',
-                cateId: `5f9115700089f9075797cf61`
-            },
-            headers: {
-                Authorization: Authorization
+        $('#add-filed').on('click', function () {
+            $('.form-content').append(html);
+        });
+
+        $("#submit").on('click',function (){
+            var url = $("#url").val();
+            var token = $("#token").val();
+            var method = $("#method").val();
+            var data = {};
+
+            $("#content").find('.form-group').each(function (){
+                var filed = $(this).find('.filed input').val();
+                data[filed] = $(this).find('.value').val();
+            })
+
+            const headers = {};
+
+            if(!!token) {
+                headers.Authorization = 'Bearer ' + token;
             }
-        })
-
-        $form.on('click', function (e) {
-            var title = $('#title').val();
-            var description = $('#description').val();
-
-
-            e.preventDefault();
 
             $.ajax({
-                method: `post`,
-                url: `/api/article/cate`,
-                data: {
-                    title: title,
-                    description: description
-                },
-                headers: {
-                    Authorization: Authorization
-                }
+                url: url,
+                method: method,
+                headers: headers,
+                data: data
             })
-        })
+        });
     })
 </script>
+
 </body>
 </html>

@@ -22,14 +22,16 @@ const router = (
     )
 );
 
-/*设置jwt*/
-router.use(
-    koaJwt({
-        secret: jwtSecret
-    }).unless({
-        path: [/register/, /login/]
-    })
-);
+const whitePaths: Array<string> = [
+    `login`,
+    `register`,
+    `/article/cate`,
+    `/article/detail`
+];
+
+router.use(koaJwt({secret: jwtSecret}).unless({
+    path: whitePaths.map((path: string) => new RegExp(path))
+}));
 
 /*初始化路由*/
 userRouter(router);

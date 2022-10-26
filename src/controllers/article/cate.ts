@@ -18,6 +18,7 @@ import errorCode from './../../common/code';
 
 interface CreateParams {
     title: string;
+    spider?: string;
     description: string;
 }
 
@@ -27,6 +28,7 @@ export const create = async (ctx: Context) => {
     } = ctx.request;
 
     const {
+        spider = ``,
         title = ``,
         description = ``
     } = body as CreateParams;
@@ -58,12 +60,16 @@ export const create = async (ctx: Context) => {
             );
         }
 
-        const params = {
+        const params: any = {
             title: xss(title),
             createUser: userId,
             updateUser: userId,
             description: xss(description)
         };
+
+        if (spider) {
+            params.spider = spider;
+        }
 
         await cateModel.createCate(params);
 
@@ -74,7 +80,7 @@ export const create = async (ctx: Context) => {
     }
     catch (e) {
         ctx.body = (
-            errorCode(5000)
+            errorCode(5000, e.message)
         );
     }
 };
@@ -87,13 +93,13 @@ export const list = async (ctx: Context) => {
     try {
         ctx.body = {
             code: 200,
-            data: {
-                list: await cateModel.getCateList()
-            }
+            data: await cateModel.getCateList()
         };
     }
     catch (e) {
-        ctx.body = errorCode(5000);
+        ctx.body = (
+            errorCode(5000, e.message)
+        );
     }
 };
 

@@ -1,5 +1,11 @@
-import dbConfig from './db.json';
+import _dbConfig from './db.json';
 import jwtConfig from './jwt.json';
+
+const {
+    NODE_ENV
+} = process.env as any;
+
+const dbConfig = (_dbConfig as any)[NODE_ENV] || {};
 
 /*jwt配置*/
 export const jwtSecret: string = jwtConfig.secret;

@@ -18,6 +18,11 @@ const cateModel = CreateSchema({
         type: String,
         display: `分类名`
     },
+    status: {
+        type: Number,
+        default: 1,
+        display: `分类状态 0为禁用 1为启用 -1为删除`
+    },
     description: {
         type: String,
         display: `描述`
@@ -31,11 +36,16 @@ const cateModel = CreateSchema({
         type: ObjectId,
         display: `更新人`,
         ref: `User`
+    },
+    spider: {
+        type: String,
+        display: `爬虫数据`,
     }
 });
 
 interface CreatePara {
     title: string;
+    spider?: string;
     description: string;
     createUser: string;
     updateUser: string;
@@ -64,8 +74,7 @@ cateModel.statics.getCreateByTitle = (
             return await this.findOne({
                 title: title
             }).exec();
-        }
-        catch (e) {
+        } catch (e) {
             return Promise.reject(e);
         }
     }

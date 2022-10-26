@@ -34,6 +34,15 @@ const articleModel = CreateSchema({
         type: ObjectId,
         display: `作者Id`,
         ref: `User`
+    },
+    status: {
+        type: Number,
+        default: 1,
+        display: `分类状态 0为禁用 1为启用 -1为删除`
+    },
+    spider: {
+        type: String,
+        display: `爬虫数据`
     }
 });
 
@@ -47,6 +56,7 @@ interface CreateArticleParams {
 
 interface Statics extends Model<any> {
     createArticle(params: CreateArticleParams): Promise<any>;
+    getArticleById(id: string): Promise<any>;
 }
 
 /*创建一篇文章*/
@@ -54,6 +64,16 @@ articleModel.statics.createArticle = (
     async function (para: CreateArticleParams) {
         const article = new this(para);
         return await article.save();
+    }
+);
+
+/*获取文章详情*/
+articleModel.statics.getArticleById = (
+    async function (id: string) {
+        return this.findOne({
+            _id: id,
+            status: 1
+        });
     }
 );
 

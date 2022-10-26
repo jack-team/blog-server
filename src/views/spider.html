@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>爬虫抓取页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .body {
+            padding: 20px;
+        }
+
+        .content {
+            padding: 12px 0;
+        }
+
+        .cate-button {
+            height: 32px;
+            padding: 0 16px;
+            color: #fff;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            background-color: #f40;
+            margin-right: 10px;
+        }
+
+        .cate-button:active {
+            opacity: .8;
+        }
+
+        .cate-button:last-child {
+            margin-right: 0;
+        }
+    </style>
+    <script src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+<div class="body" id="cate">
+    <p>分类</p>
+    <div class="content"></div>
+</div>
+
+
+<script>
+    $(function () {
+        var $cate = $('#cate');
+        $.get(`/api/article/cate`).then((data) => {
+            var html = ``;
+            $(data.data).each(function (index, item) {
+                var _data = JSON.parse(item.spider);
+                const value = JSON.stringify({
+                    cateId: item._id,
+                    category_id: _data.category_id
+                })
+                html += '<button class="cate-button" data-value=' + value + '>' + item.title + '</button>';
+            });
+            $cate.find('.content').html(html);
+        });
+        $cate.on('click', '.cate-button', function () {
+            $.post('/spider/article',  JSON.parse($(this).attr('data-value')))
+        })
+    });
+</script>
+</body>
+</html>

@@ -105,6 +105,8 @@ export default async (ctx: Context) => {
         };
     }
     catch (e) {
-        ctx.body = errorCode(5000);
+        ctx.body = (
+            errorCode(5000, e.message)
+        );
     }
 };

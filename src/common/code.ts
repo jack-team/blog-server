@@ -6,7 +6,7 @@ interface Result {
 type Code = 5000 | 10001 | 10002 | 10003 |
     10004 | 10005 | 10006 | 10007 | 10008 |
     20001 | 20002 | 20003 | 20004 | 20005 |
-    20006 | 20007;
+    20006 | 20007 | 20008 | 20009 | 20010;
 
 interface Codes {
     [code: number]: Result;
@@ -76,9 +76,23 @@ const codes: Codes = {
     20007: {
         code: 20007,
         message: `文章描述不能为空.`
+    },
+    20008: {
+        code: 20008,
+        message: `文章id不能为空.`
+    },
+    20009: {
+        code: 20009,
+        message: `该文章不存在.`
+    },
+    20010: {
+        code: 20010,
+        message: `该文章已被删除.`
     }
 };
 
-export default (code: Code): Result => {
-    return codes[code] as Result;
+export default (code: Code, message?: string): Result => {
+    const _message = codes[code] as Result;
+    if (message) _message.message = message;
+    return _message;
 };

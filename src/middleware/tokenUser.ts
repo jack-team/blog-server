@@ -1,7 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { Context, Next } from 'koa';
 
-export default async (ctx: Context, next: Next) => {
+export default async (
+    ctx: Context, next: Next
+) => {
     const {
         authorization = ``
     } = ctx.headers;
@@ -10,7 +12,7 @@ export default async (ctx: Context, next: Next) => {
 
     ctx.userInfo = jwt.decode(
         authorization.replace(reg, ``)
-    );
+    ) || {};
 
     await next();
 };

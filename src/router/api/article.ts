@@ -5,7 +5,7 @@ import * as Controllers from './../../controllers/article';
 export default (router: Router) => {
     /*创建文章分类*/
     router.post(
-        `/article/cate`,
+        `/post/cate`,
         Controllers.cate.create
     );
 
@@ -23,7 +23,7 @@ export default (router: Router) => {
 
     /*获取文章内容*/
     router.get(
-        `/article/:id`,
+        `/article/detail/:id`,
         Controllers.content.detail
     );
 };
